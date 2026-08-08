@@ -10,6 +10,7 @@ export interface ResultData {
   auto: boolean;
   wasDone: boolean;
   streakAfter: number;
+  isMock: boolean;
 }
 
 function scoreHeadline(score: number): string {
@@ -20,7 +21,7 @@ function scoreHeadline(score: number): string {
 
 /** The AI review: score, suggestions, polished text, vocabulary, and streak. */
 export function ReviewResult({ data, onNew }: { data: ResultData; onNew: () => void }) {
-  const { lang, title, review, auto, wasDone, streakAfter } = data;
+  const { lang, title, review, auto, wasDone, streakAfter, isMock } = data;
   return (
     <div>
       <div className="view-head row spread">
@@ -38,7 +39,7 @@ export function ReviewResult({ data, onNew }: { data: ResultData; onNew: () => v
       <div className="ai-panel">
         <div className="inner">
           <div className="ai-tag">
-            <span className="spark">✦</span> AI coach · mock feedback
+            <span className="spark">✦</span> AI coach{isMock ? ' · mock feedback' : ''}
           </div>
           <div className="score-ring">
             <div className="ring" style={{ ['--v' as string]: String(review.score) }}>
@@ -52,7 +53,9 @@ export function ReviewResult({ data, onNew }: { data: ResultData; onNew: () => v
             <div className="score-note">
               <h3>{scoreHeadline(review.score)}</h3>
               <p className="muted">
-                Scored on effort, sentence variety, and clarity. In production this comes from your AI coach.
+                {isMock
+                  ? 'Scored heuristically by the offline mock. Connect the AI proxy for real feedback.'
+                  : 'Scored on grammar, clarity, and range by your AI coach.'}
               </p>
             </div>
           </div>

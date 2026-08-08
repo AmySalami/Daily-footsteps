@@ -13,15 +13,18 @@ export interface FinishPayload {
   auto: boolean;
 }
 
+type FinishHandler = (p: FinishPayload) => void | Promise<void>;
+
 const wordCount = (s: string) => (s.trim() ? s.trim().split(/\s+/).length : 0);
 const pickRandom = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 /** The writing surface: title + shuffle, language tag, textarea with docked Speak. */
-export function Editor({ onFinish }: { onFinish: (p: FinishPayload) => void }) {
+export function Editor({ onFinish }: { onFinish: FinishHandler }) {
   const state = useAppState();
   const [activeLang, setActiveLang] = useState<LangCode | null>(null);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const composeRef = useRef<HTMLTextAreaElement>(null);
 
   const speech = useSpeech({
@@ -44,7 +47,8 @@ export function Editor({ onFinish }: { onFinish: (p: FinishPayload) => void }) {
     composeRef.current?.focus();
   };
 
-  const submit = () => {
+  const submit = async () => {
+    if (submitting) return;
     if (wordCount(text) < 3) {
       toast('Write a little more first (3+ words)');
       composeRef.current?.focus();
@@ -53,7 +57,12 @@ export function Editor({ onFinish }: { onFinish: (p: FinishPayload) => void }) {
     if (speech.recording) speech.stop();
     const auto = !activeLang;
     const lang = activeLang ?? detectLang(text);
-    onFinish({ text: text.trim(), title: title.trim(), lang, auto });
+    setSubmitting(true);
+    try {
+      await onFinish({ text: text.trim(), title: title.trim(), lang, auto });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -119,8 +128,8 @@ export function Editor({ onFinish }: { onFinish: (p: FinishPayload) => void }) {
       </div>
 
       <div className="row" style={{ marginTop: 'var(--space-block)' }}>
-        <button className="cta secondary" onClick={submit}>
-          Finish &amp; get feedback →
+        <button className="cta secondary" onClick={submit} disabled={submitting}>
+          {submitting ? 'Reviewing…' : 'Finish & get feedback →'}
         </button>
         <span className="muted" style={{ fontSize: 'var(--text-caption)' }}>
           Your coach reviews, scores, and builds your vocabulary.
