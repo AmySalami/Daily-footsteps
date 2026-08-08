@@ -4,7 +4,7 @@
 // and a tiny pub/sub so React can subscribe via useSyncExternalStore.
 // This is the ONLY module that touches localStorage.
 // =========================================================
-import type { AppState, LangCode, StreakState, WorkspaceItem } from './types';
+import type { AppState, Exercise, LangCode, StreakState, VocabEntry, WorkspaceItem } from './types';
 import { LANG_CODES, SEED_WORKSPACE } from './constants';
 import { STORAGE_KEY, STATE_VERSION } from './config';
 
@@ -105,16 +105,33 @@ export function doneToday(lang: LangCode): boolean {
   return state.langs[lang].days.includes(todayStr());
 }
 
+/** Advance (or reset) a language's streak for today. Mutates the draft in place. */
+function advanceStreak(draft: AppState, lang: LangCode): void {
+  const L = draft.langs[lang];
+  const today = todayStr();
+  if (L.days.includes(today)) return;
+  if (L.lastDate && daysBetween(L.lastDate, today) === 1) L.streak += 1;
+  else L.streak = 1;
+  L.lastDate = today;
+  L.days.push(today);
+}
+
 /** Record today's completion for a language and advance/reset the streak. */
 export function completeToday(lang: LangCode): void {
+  setState((draft) => advanceStreak(draft, lang));
+}
+
+/**
+ * Record a finished exercise: append it, merge its vocab (deduped by word,
+ * case-insensitive, per language), and advance the streak — all in one update.
+ */
+export function recordExercise(exercise: Exercise, vocab: VocabEntry[]): void {
   setState((draft) => {
-    const L = draft.langs[lang];
-    const today = todayStr();
-    if (L.days.includes(today)) return;
-    if (L.lastDate && daysBetween(L.lastDate, today) === 1) L.streak += 1;
-    else L.streak = 1;
-    L.lastDate = today;
-    L.days.push(today);
+    draft.exercises = [...draft.exercises, exercise];
+    const have = new Set(draft.vocab[exercise.lang].map((v) => v.word.toLowerCase()));
+    const fresh = vocab.filter((v) => !have.has(v.word.toLowerCase()));
+    draft.vocab[exercise.lang] = [...draft.vocab[exercise.lang], ...fresh];
+    advanceStreak(draft, exercise.lang);
   });
 }
 

@@ -112,6 +112,13 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
   storage mutations (`addWorkspaceItem` / `updateWorkspaceItem` / `removeWorkspaceItem`); shared
   `ItemForm` (add + edit) with emoji picker; reusable `toast` + `Toaster`. Verified: CRUD, persistence
   across reload, per-language isolation.
+- ✅ **E2 + E4 + E5 — Core writing loop** — Practice page (`StreakStrip` + `Editor` → `ReviewResult`):
+  title + 🎲 Shuffle (pulls from workspace), language tag or **auto-detect on submit** (`detectLang`),
+  textarea with docked **Speak** (`useSpeech`, Web Speech API) + word count. On finish, a typed
+  **mock AI** (`mockAI.ts`, same `Review` shape the real proxy will return) scores, suggests, polishes,
+  and extracts vocab; `recordExercise` persists exercise + deduped vocab + streak in one update.
+  Verified: shuffle, EN/DE auto-detect, review/score/localized suggestions, vocab table, paw streak,
+  reset. **AI still mocked** — E9/E6 swap it for the real proxy.
 
 ---
 
@@ -125,6 +132,7 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
 
 ## Change Log
 
+- **2026-08-08** — **Core writing loop (E2 + E4 + E5) built.** Practice page with title + Shuffle, language tag / auto-detect, editor + Speak, and full review (score, localized suggestions, polished text, vocab table, paw streak) on a typed mock AI. Exercise/vocab/streak persistence in one storage update. Verified in-browser incl. EN/DE auto-detect. AI remains mocked pending E9/E6.
 - **2026-08-08** — **E3 (Workspace CRUD) built.** Add / edit / remove workspace items per language through typed storage mutations; shared add/edit form with emoji picker; reusable toast. Verified in-browser (CRUD, persistence, language isolation).
 - **2026-08-08** — **E1 (Foundation) built.** Production stack locked: **React + TypeScript + Vite**. Scaffold, design-system wiring, typed storage layer (seed + versioning), hash routing, app shell, and reusable UI primitives in place and building clean (`tsc` + `vite build`). Prototype moved to `/prototype`.
 - **2026-08-08** — Flow revision after prototype review: home is now the **writing page** (no upfront language choice); user **names the topic** in a Title (🎲 Shuffle pulls from workspace); language chosen via **tag or auto-detected** on submit; streak visual changed to **cat-paw footprints** with a compact horizontal per-language layout.
