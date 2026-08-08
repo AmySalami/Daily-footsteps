@@ -82,30 +82,31 @@ button{font-family:inherit;cursor:pointer;}
 .practice-head .eyebrow{margin-bottom:8px;}
 .practice-head h2{margin:0;font-size:var(--text-h2);}
 
-/* language chips = compact streak + language selector (tag) */
-.lang-strip{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
-.lang-chip{
-  flex:1 1 200px;text-align:left;
+/* streak cards — display only, top of page */
+.streak-strip{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:var(--space-block);}
+.streak-card{
+  flex:1 1 200px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:12px 16px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s, box-shadow .2s, background .2s;
+  padding:12px 16px;display:flex;flex-direction:column;gap:8px;
 }
-.lang-chip:hover{border-color:var(--accent);}
-.lang-chip.is-selected{border-color:var(--accent);background:var(--paper-warm);box-shadow:var(--shadow-lift);}
 .chip-top{display:flex;align-items:center;gap:9px;}
 .chip-top .chip-flag{font-size:22px;line-height:1;}
 .chip-top .chip-name{font-family:var(--font-display);font-weight:var(--weight-semibold);font-size:var(--text-h3);color:var(--secondary);}
 .chip-top .chip-check{margin-left:auto;font-size:var(--text-sm);color:var(--sage);font-weight:var(--weight-semibold);}
 .chip-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;}
 .chip-num{font-family:var(--font-display);font-weight:var(--weight-semibold);font-size:var(--text-btn);color:var(--ink);white-space:nowrap;}
-.lang-hint{font-size:var(--text-caption);margin:0 0 var(--space-block);}
-.lang-hint b{color:var(--secondary);}
 
 /* title + shuffle */
-.title-row{display:flex;gap:10px;align-items:stretch;margin-bottom:14px;}
+.title-row{display:flex;gap:10px;align-items:stretch;margin-bottom:12px;}
 .title-input{flex:1;font-family:var(--font-display);font-size:var(--text-h3);color:var(--secondary);}
 .title-input::placeholder{font-family:var(--font-body);font-size:var(--text-lead);color:var(--ink-soft);}
 .shuffle-btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--white);border-radius:var(--r-sm);padding:0 16px;font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--ink);white-space:nowrap;transition:all .2s;}
 .shuffle-btn:hover{background:var(--accent);color:var(--secondary);border-color:var(--accent);}
+
+/* language tag (below title) */
+.lang-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.lang-hint{font-size:var(--text-caption);margin:0 0 var(--space-block);}
+.lang-hint b{color:var(--secondary);}
 
 /* editor */
 .field{display:flex;flex-direction:column;gap:6px;}
@@ -116,13 +117,17 @@ button{font-family:inherit;cursor:pointer;}
   padding:12px 15px;
 }
 .input:focus,.textarea:focus{outline:2px solid var(--accent);border-color:transparent;}
-.editor-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.mic-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--white);border-radius:var(--r-pill);padding:9px 18px;font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--ink);}
+.textarea.compose{min-height:240px;resize:vertical;line-height:var(--leading-relaxed);font-size:var(--text-body);}
+
+/* writing field with docked Speak button */
+.compose-wrap{position:relative;}
+.compose-wrap .compose{padding-bottom:60px;}
+.compose-wrap .wordcount{position:absolute;left:15px;bottom:16px;font-size:var(--text-caption);color:var(--ink-soft);}
+.mic-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--white);border-radius:var(--r-pill);padding:8px 16px;font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--ink);}
+.compose-wrap .mic-btn{position:absolute;right:13px;bottom:12px;box-shadow:var(--shadow-pill);}
 .mic-btn.recording{background:var(--accent);color:var(--secondary);border-color:var(--accent);}
 .mic-btn .mdot{width:9px;height:9px;border-radius:50%;background:var(--ink-soft);}
 .mic-btn.recording .mdot{background:var(--secondary);animation:blink 1s infinite;}
-.wordcount{margin-left:auto;font-size:var(--text-caption);color:var(--ink-soft);}
-.textarea.compose{min-height:240px;resize:vertical;line-height:var(--leading-relaxed);font-size:var(--text-body);}
 
 /* =========================================================
    Workspace

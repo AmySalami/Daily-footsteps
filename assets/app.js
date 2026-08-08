@@ -210,18 +210,12 @@
     const wrap = h('<div></div>');
     app.appendChild(wrap);
 
-    wrap.appendChild(h(`
-      <div class="practice-head">
-        <p class="eyebrow">Daily practice</p>
-        <h2>Write today's step.</h2>
-      </div>`));
-
-    // language chips (compact streak + selector tag)
-    const strip = h('<div class="lang-strip"></div>');
+    // (1) streak cards — top of page, display only (no function)
+    const strip = h('<div class="streak-strip"></div>');
     Object.entries(LANGS).forEach(([code,L])=>{
       const st = state.langs[code];
-      const chip = h(`
-        <button class="lang-chip ${code===activeLang?'is-selected':''}" data-lang="${code}">
+      strip.appendChild(h(`
+        <div class="streak-card">
           <span class="chip-top">
             <span class="chip-flag">${L.flag}</span>
             <span class="chip-name">${L.name}</span>
@@ -231,24 +225,15 @@
             ${trailHTML(st.streak,{compact:true,minSlots:5})}
             <span class="chip-num">${dayLabel(st.streak)}</span>
           </span>
-        </button>`);
-      chip.onclick = ()=>{
-        activeLang = code;
-        strip.querySelectorAll('.lang-chip').forEach(c=>c.classList.toggle('is-selected', c.dataset.lang===code));
-        updateHint();
-      };
-      strip.appendChild(chip);
+        </div>`));
     });
     wrap.appendChild(strip);
 
-    const hint = h('<p class="lang-hint"></p>');
-    wrap.appendChild(hint);
-    function updateHint(){
-      hint.innerHTML = activeLang
-        ? `Writing in <b>${LANGS[activeLang].name}</b>. Tap the other tag to switch.`
-        : `Pick a language above, or just start writing — we'll detect it when you finish.`;
-    }
-    updateHint();
+    wrap.appendChild(h(`
+      <div class="practice-head">
+        <p class="eyebrow">Daily practice</p>
+        <h2>Write today's step.</h2>
+      </div>`));
 
     // title + shuffle
     const titleRow = h(`
@@ -261,20 +246,41 @@
     titleRow.querySelector('#shuffle').onclick = ()=>{
       const pool = state.workspace[activeLang || 'en'];
       if(!pool || !pool.length){ toast('Add items in Workspace first'); return; }
-      const item = pickRandom(pool);
-      titleInput.value = item.label;
+      titleInput.value = pickRandom(pool).label;
       toast('Topic picked 🎲');
       compose.focus();
     };
 
-    // editor
+    // (2) language tag — below the title
+    const tags = h('<div class="lang-tags"></div>');
+    Object.entries(LANGS).forEach(([code,L])=>{
+      const b = h(`<button class="pill-btn ${code===activeLang?'is-active':''}" data-lang="${code}">${L.flag} ${L.name}</button>`);
+      b.onclick = ()=>{
+        activeLang = (activeLang===code) ? null : code; // tap again to clear
+        tags.querySelectorAll('.pill-btn').forEach(t=>t.classList.toggle('is-active', t.dataset.lang===activeLang));
+        updateHint();
+      };
+      tags.appendChild(b);
+    });
+    wrap.appendChild(tags);
+
+    const hint = h('<p class="lang-hint"></p>');
+    wrap.appendChild(hint);
+    function updateHint(){
+      hint.innerHTML = activeLang
+        ? `Writing in <b>${LANGS[activeLang].name}</b>. Tap it again to let us auto-detect.`
+        : `Pick a language, or just start writing — we'll detect it when you finish.`;
+    }
+    updateHint();
+
+    // (3) writing field with Speak button docked bottom-right
     const editor = h(`
       <div>
-        <div class="editor-toolbar">
-          <button class="mic-btn" id="mic"><span class="mdot"></span> 🎤 Speak</button>
+        <div class="compose-wrap">
+          <textarea class="textarea compose" id="compose" placeholder="Start writing … or tap “Speak”. Describe your topic, or tell a little story about it."></textarea>
           <span class="wordcount" id="wc">0 words</span>
+          <button class="mic-btn" id="mic"><span class="mdot"></span> 🎤 Speak</button>
         </div>
-        <textarea class="textarea compose" id="compose" placeholder="Start writing … or tap “Speak”. Describe your topic, or tell a little story about it."></textarea>
         <div class="row" style="margin-top:var(--space-block)">
           <button class="cta secondary" id="submit">Finish &amp; get feedback →</button>
           <span class="muted" style="font-size:var(--text-caption)">Your coach reviews, scores, and builds your vocabulary.</span>
