@@ -119,6 +119,9 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
   and extracts vocab; `recordExercise` persists exercise + deduped vocab + streak in one update.
   Verified: shuffle, EN/DE auto-detect, review/score/localized suggestions, vocab table, paw streak,
   reset. **AI still mocked** — E9/E6 swap it for the real proxy.
+- ✅ **E7 — Vocabulary collection** — per-language browsing page: language switch with live counts,
+  search filter (word/meaning), newest-first table (word · type · meaning · usage · example), and
+  empty states. Reads the vocab the writing loop saves.
 
 ---
 
@@ -132,6 +135,7 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
 
 ## Change Log
 
+- **2026-08-08** — **E7 (Vocabulary collection) built.** Per-language browsing page with search filter, newest-first table, live counts, and empty states. Verified in-browser (list, search, language switch, migration of prior data).
 - **2026-08-08** — **Core writing loop (E2 + E4 + E5) built.** Practice page with title + Shuffle, language tag / auto-detect, editor + Speak, and full review (score, localized suggestions, polished text, vocab table, paw streak) on a typed mock AI. Exercise/vocab/streak persistence in one storage update. Verified in-browser incl. EN/DE auto-detect. AI remains mocked pending E9/E6.
 - **2026-08-08** — **E3 (Workspace CRUD) built.** Add / edit / remove workspace items per language through typed storage mutations; shared add/edit form with emoji picker; reusable toast. Verified in-browser (CRUD, persistence, language isolation).
 - **2026-08-08** — **E1 (Foundation) built.** Production stack locked: **React + TypeScript + Vite**. Scaffold, design-system wiring, typed storage layer (seed + versioning), hash routing, app shell, and reusable UI primitives in place and building clean (`tsc` + `vite build`). Prototype moved to `/prototype`.
