@@ -1,5 +1,11 @@
 .DS_Store
 node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+*.local
 *.log
 .vscode/
 .idea/
+.env
+.env.*.local

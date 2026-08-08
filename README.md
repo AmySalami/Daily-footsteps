@@ -2,49 +2,69 @@
 
 A daily language-practice web app. Pick something from your own world, **describe it or tell
 its story** (by writing or speaking), and an AI coach reviews it, scores it, and turns it into
-a personal vocabulary list. Come back every day to grow your trail of footsteps.
+a personal vocabulary list. Come back every day to grow your trail of cat-paw footsteps.
 
 Languages at launch: **German 🇩🇪** and **English 🇬🇧**.
 
 > See [PRD.md](PRD.md) — the living product doc (vision, epics, decisions, roadmap).
 
-## Status: Prototype (Phase 0)
+## Status: Production build — E1 (Foundation) complete
 
-This is a clickable prototype to validate the end-to-end experience.
+Stack: **React + TypeScript + Vite**, hash-routed SPA, all learner data in `localStorage`.
+Design system: [amies_design_system](https://github.com/AmySalami/amies_design_system) tokens
+(vendored in `src/styles/design-system.css`) — no hardcoded colors/sizes.
 
-- **Vanilla HTML/CSS/JS** — no build step.
-- **Design system:** [amies_design_system](https://github.com/AmySalami/amies_design_system), tokens vendored in `vendor/amies-design-system.css`. No hardcoded colors/sizes.
-- **Storage:** everything lives in your browser's `localStorage` (key `df_state`).
-- **AI is mocked** — `mockReview()` in `assets/app.js` returns heuristic feedback/score/vocab so the whole flow works before the real backend proxy exists.
-- **Voice** uses the browser Web Speech API (best in Chrome/Edge).
-
-## Run it
+## Run
 
 ```bash
-python3 -m http.server 8000
+npm install
+npm run dev
 ```
 
-Open `http://localhost:8000` (serve over http — voice + fonts don't like `file://`).
+Then open the URL Vite prints (default `http://localhost:5173`).
 
-## The flow
+Other scripts:
 
-Hub (pick a language) → Exercise (a random workspace item, *describe* or *story*) → write or
-speak → **mock AI review + score + vocabulary table** → footsteps streak grows.
-Manage your items under **Workspace**; browse saved words under **Vocabulary**.
-
-## Structure
-
-```
-index.html                     # app shell + nav
-assets/app.css                 # prototype styles (tokens only)
-assets/app.js                  # router, state, mock AI, all views
-vendor/amies-design-system.css # design tokens (synced from the DS repo)
-PRD.md                         # living product doc
+```bash
+npm run build      # typecheck (tsc -b) + production build to dist/
+npm run preview    # serve the production build
+npm run typecheck  # types only
 ```
 
-## Reset
+## Project structure
 
-Clear your data from the browser console:
+```
+src/
+├── main.tsx                 # entry: mounts <App>, loads DS + app styles
+├── App.tsx                  # RouterProvider
+├── router.tsx               # hash routes → AppShell + pages
+├── components/
+│   ├── AppShell.tsx         # header (brand + nav) + <Outlet>
+│   └── ui/                  # DS primitives: Button, Card, Badge, Tag, Paw, PawTrail
+├── pages/                   # PracticePage, WorkspacePage, VocabularyPage
+├── lib/
+│   ├── types.ts             # domain model (single source of truth)
+│   ├── constants.ts         # LANGS, seed workspace, paw geometry
+│   ├── config.ts            # env (VITE_API_BASE), storage key/version
+│   ├── storage.ts           # typed localStorage layer + pub/sub (only file touching storage)
+│   └── useAppState.ts       # React hook over the store
+└── styles/                  # design-system.css (vendored tokens) + app.css
+
+prototype/                   # the original clickable prototype (kept for reference)
+```
+
+## AI proxy (E9)
+
+The AI coach runs behind a thin proxy that holds the API key. Set its URL in `.env`:
+
+```bash
+cp .env.example .env
+# VITE_API_BASE=https://your-proxy…
+```
+
+When `VITE_API_BASE` is empty, the app shows a **mock AI** badge and uses built-in mock feedback.
+
+## Reset local data
 
 ```js
 localStorage.removeItem('df_state'); location.reload();

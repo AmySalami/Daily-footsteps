@@ -78,6 +78,7 @@ between DE and EN — no duplicated logic.
 | Launch languages | **German + English** | Both from day one, shared engine. |
 | Data storage | **Local storage** | All learner data client-side. |
 | Prototype AI | **Mocked** | Canned/heuristic responses so the full flow is clickable before the proxy exists. |
+| Production stack | **React + TypeScript + Vite** | Component-based, typed, hash-routed SPA; consumes DS CSS tokens; env-driven proxy base URL. |
 
 ## 6. Open questions
 
@@ -100,6 +101,13 @@ mock review + score → vocab table → footsteps streak.
 ### Phase 1+ — Production
 Build each epic properly. Introduce the E9 AI proxy, real review/scoring/vocab, hardened
 storage, and polish. Sequenced roughly: E1 → E9 (stub) → E3 → E4 → E5 → E6 → E7 → E2 → E8.
+A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
+
+**Progress:**
+- ✅ **E1 — Foundation & Design System** — React + TS + Vite scaffold; DS tokens + fonts wired; typed
+  `localStorage` layer with seeding + versioning/migration (`src/lib/storage.ts`); hash router + app
+  shell; reusable UI primitives (`Button`, `Card`, `Badge`, `Tag`, `Paw`, `PawTrail`); env-driven
+  proxy config (`VITE_API_BASE`). Prototype preserved under `/prototype`.
 
 ---
 
@@ -113,5 +121,6 @@ storage, and polish. Sequenced roughly: E1 → E9 (stub) → E3 → E4 → E5 �
 
 ## Change Log
 
+- **2026-08-08** — **E1 (Foundation) built.** Production stack locked: **React + TypeScript + Vite**. Scaffold, design-system wiring, typed storage layer (seed + versioning), hash routing, app shell, and reusable UI primitives in place and building clean (`tsc` + `vite build`). Prototype moved to `/prototype`.
 - **2026-08-08** — Flow revision after prototype review: home is now the **writing page** (no upfront language choice); user **names the topic** in a Title (🎲 Shuffle pulls from workspace); language chosen via **tag or auto-detected** on submit; streak visual changed to **cat-paw footprints** with a compact horizontal per-language layout.
 - **2026-08-08** — Initial PRD. Epics E1–E9 defined. Decisions locked: thin AI proxy, DE+EN at launch, local storage, mocked AI for the prototype. Prototype phase started.

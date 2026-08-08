@@ -1,0 +1,208 @@
+/* =========================================================
+   Amie's Design System — Design Tokens
+   Single source of truth. Edit a value here and it updates
+   every project that loads this file.
+     <link rel="stylesheet" href="amies-design-system.css" />
+   ========================================================= */
+:root{
+  /* ---- color ---- */
+  --paper:#FBF7F0;       /* page background */
+  --paper-2:#F3ECE0;     /* raised surfaces / gradients */
+  --paper-warm:#FFFDF9;  /* gradient start, slightly warmer than paper */
+  --ink:#2A2622;         /* body + strong text */
+  --ink-soft:#5C544B;    /* secondary text, captions */
+  --ink-wash:rgba(42,38,34,.06); /* code / mono backgrounds */
+  --line:#E6DCCC;        /* borders, dividers, dashed tracks */
+  --accent:#ffc400;      /* PRIMARY - fills & icons only */
+  --accent-dark:#cd9e00; /* darker amber - hover states on accent elements */
+  --secondary:#1e3258;   /* SECONDARY - headings, labels, text on primary */
+  --accent-soft:#F2D9C6; /* soft accent tint */
+  --sage:#7E8B6F;        /* tertiary accent (data viz) */
+  --highlight:rgba(255,196,0,.5); /* inline text highlight (mark) */
+  --white:#fff;          /* pure white for card surfaces */
+  --white-soft:rgba(255,255,255,.5); /* translucent white (tag bg) */
+  --white-mid:rgba(255,255,255,.8);  /* active nav button bg */
+  --white-faint:rgba(255,255,255,.2); /* nav bar container bg */
+
+  /* ---- color: ai gradient ---- */
+  --ai-1:#F6953C;
+  --ai-2:#F2618A;
+  --ai-3:#9266EF;
+  --ai-4:#4A90F4;
+
+  /* ---- spacing ----
+     Layout tiers (naming + grouping convention; token values unchanged):
+       inside a Block   (heading -> its text, para -> para)   = --space-paragraph
+       between Blocks   (unit -> unit inside a Section)        = --space-zone
+       between Sections (numbered chapters 01, 02 ...)         = --space-region
+     A Block = a heading + the text explaining it, OR a card / image+caption /
+     pull quote / list. A heading and its own paragraph are the SAME Block
+     (--space-paragraph), never a larger tier. The between-Blocks tier only ever
+     separates two DIFFERENT Blocks.
+     Note: the between-Blocks tier uses --space-zone, NOT the token literally
+     named --space-block. --space-block (24px) and --space-section (48px) stay
+     available but are not part of this default page recipe. */
+  --space-paragraph:16px; /* between body paragraphs */
+  --space-takeaway:20px;  /* gap between stacked list / takeaway items */
+  --space-block:24px;     /* between content blocks within a section */
+  --space-section:48px;   /* between major page sections */
+  --space-zone:80px;      /* between distinct page zones (hero, work, etc.) */
+  --space-region:160px;   /* between large content regions, bigger than a zone */
+  --space-page:400px;     /* top/bottom breathing room for the whole page */
+  --content-inset:clamp(80px,15vw,300px); /* horizontal inset for project detail page content */
+
+  /* ---- layout ---- */
+  --max:760px;
+  --wide:1080px;
+  --gutter:32px;          /* side padding on page containers */
+
+  /* ---- radius ---- */
+  --r-xs:3px;
+  --r-sm:8px;
+  --r-md:18px;
+  --r-lg:22px;
+  --r-pill:100px;
+
+  /* ---- elevation ---- */
+  --shadow-subtle:0 1px 3px rgba(0,0,0,.05); /* active nav button */
+  --shadow-pill:0 8px 20px -14px rgba(42,38,34,.5);
+  --shadow-lift:0 16px 32px -16px rgba(255,196,0,.85); /* derived from --accent */
+  --shadow-panel:0 30px 60px -38px rgba(42,38,34,.4);
+
+  /* ---- typography: fonts ---- */
+  --font-display:"Fraunces",serif;
+  --font-body:"Hanken Grotesk",-apple-system,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* ---- typography: scale ---- */
+  --text-badge:11px;
+  --text-mono:11.5px;
+  --text-label:12px;
+  --text-eyebrow:12.5px;
+  --text-tag:13px;
+  --text-caption:13.5px;
+  --text-sm:14px;
+  --text-btn:15px;
+  --text-lead:16px;
+  --text-body:18px;
+  --text-body-lg:19px;
+  --text-h3:21px;
+  --text-icon:22px;
+  --text-quote:clamp(22px,3vw,30px);
+  --text-h2:clamp(28px,3.6vw,40px);
+  --text-h1:clamp(40px,6vw,68px);
+
+  /* ---- typography: weight ---- */
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+
+  /* ---- typography: leading ---- */
+  --leading-tight:1.04;
+  --leading-snug:1.3;
+  --leading-medium:1.5;
+  --leading-relaxed:1.6;
+  --leading-normal:1.7;
+
+  /* ---- typography: tracking ---- */
+  --tracking-none:0;
+  --tracking-tight:-0.02em;
+  --tracking-snug:-0.01em;
+  --tracking-xs:0.02em;
+  --tracking-sm:0.03em;
+  --tracking-wide:0.14em;
+  --tracking-wider:0.16em;
+  --tracking-widest:0.18em;
+}
+
+/* ---- spacing rules ---- */
+/* only p+p is applied globally — other spacing tokens are for consumer use */
+body p+p{margin-top:var(--space-paragraph);}
+
+/* ---- heading rules ---- */
+/* body h* for specificity over Tailwind preflight */
+body h1{font-family:var(--font-display);font-weight:var(--weight-medium);font-size:var(--text-h1);color:var(--secondary);line-height:var(--leading-tight);letter-spacing:var(--tracking-tight);}
+body h2{font-family:var(--font-display);font-weight:var(--weight-medium);font-size:var(--text-h2);color:var(--secondary);line-height:var(--leading-tight);letter-spacing:var(--tracking-tight);}
+body h3{font-family:var(--font-display);font-weight:var(--weight-semibold);font-size:var(--text-h3);color:var(--ink);letter-spacing:var(--tracking-snug);}
+
+/* =========================================================
+   Shared Components
+   Use class names directly — tokens are already wired in.
+   ========================================================= */
+
+/* ---- type labels ---- */
+.eyebrow{font-size:var(--text-eyebrow);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--secondary);}
+.section-label{font-size:var(--text-eyebrow);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-wider);text-transform:uppercase;color:var(--secondary);display:flex;align-items:center;gap:12px;}
+.section-label .num{color:var(--ink);font-family:var(--font-display);font-style:italic;font-weight:var(--weight-regular);letter-spacing:var(--tracking-none);text-transform:none;font-size:var(--text-btn);}
+
+/* ---- buttons ---- */
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--secondary);font-weight:var(--weight-semibold);font-size:var(--text-btn);border-radius:var(--r-pill);padding:13px 28px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow-lift);}
+.cta:hover{transform:translateY(-2px);}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--ink);border:1px solid var(--ink);border-radius:var(--r-pill);padding:11px 26px;text-decoration:none;transition:all .2s;}
+.back:hover{background:var(--ink);color:var(--paper);}
+.ghost{display:inline-flex;align-items:center;gap:8px;font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--ink);border-radius:var(--r-pill);padding:11px 26px;text-decoration:none;transition:background .2s,backdrop-filter .2s;}
+.ghost:hover{background:var(--paper-2);}
+.ghost.scrolled{background:var(--white-faint);backdrop-filter:blur(20px) saturate(150%);}
+
+/* ---- navigation ---- */
+.nav-bar{display:inline-flex;align-items:center;gap:4px;padding:6px;border-radius:var(--r-pill);background:var(--white-faint);backdrop-filter:blur(20px) saturate(150%);}
+.nav-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:10px 24px;border-radius:var(--r-pill);font-size:var(--text-sm);font-weight:var(--weight-regular);color:var(--secondary);text-decoration:none;transition:all .2s;cursor:pointer;}
+.nav-btn:hover{color:var(--ink);background:var(--white-soft);font-weight:var(--weight-bold);}
+.nav-btn.nav-active{background:var(--white-mid);box-shadow:var(--shadow-subtle);color:var(--ink);font-weight:var(--weight-bold);}
+
+/* ---- badge & tag ---- */
+.badge{font-weight:var(--weight-semibold);letter-spacing:var(--tracking-sm);font-size:var(--text-badge);background:var(--accent);color:var(--secondary);border-radius:var(--r-pill);padding:2px 10px;}
+.badge.future{background:transparent;color:var(--ink-soft);border:1px solid var(--line);}
+.tag{font-size:var(--text-tag);font-weight:var(--weight-medium);color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 15px;background:var(--white-soft);}
+
+/* ---- pomo pill ---- */
+.pomo-pill{display:inline-flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 18px;font-size:var(--text-sm);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-xs);box-shadow:var(--shadow-pill);}
+.pomo-pill .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);animation:blink 1.6s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+/* ---- card ---- */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);padding:22px 24px;}
+.card-fill{background:var(--paper-2);border-radius:var(--r-lg);padding:28px 32px;}
+.card-fill .badge{margin-bottom:10px;display:inline-block;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:var(--space-block);}
+.card-content{border-radius:var(--r-lg);overflow:hidden;position:relative;cursor:pointer;}
+.card-img{width:100%;height:100%;background:var(--paper-2);transition:filter .35s,transform .35s;}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.card-content:hover .card-img{filter:blur(20px) brightness(.6);transform:scale(1.06);}
+.card-label{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;opacity:0;transition:opacity .3s;}
+.card-label .card-title{font-family:var(--font-display);font-weight:var(--weight-semibold);font-size:var(--text-h3);color:var(--white);margin-bottom:4px;}
+.card-label .card-meta{font-size:var(--text-sm);color:var(--white-soft);}
+.card-content:hover .card-label{opacity:1;}
+
+/* ---- label grid (glance) ---- */
+.glance{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;width:100%;}
+.glance.cols-3{grid-template-columns:repeat(3,1fr);}
+.glance .cell{background:var(--paper);padding:22px 22px;}
+.glance .cell h4{font-size:var(--text-label);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--secondary);margin-bottom:10px;}
+.glance .cell p{margin:0;font-size:var(--text-btn);color:var(--ink);}
+
+/* ---- image slot ---- */
+.imgslot{width:100%;}
+.imgslot .frame{border:1.5px dashed var(--line);border-radius:var(--r-md);background:linear-gradient(180deg,var(--paper-warm),var(--paper-2));aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-soft);text-align:center;padding:24px;overflow:hidden;}
+.imgslot .frame:has(img){border:none;background:none;padding:0;}
+.imgslot .frame img{width:100%;height:100%;object-fit:cover;display:block;}
+.imgslot .frame .ico{font-size:var(--text-icon);opacity:.6;}
+.imgslot .frame .label{font-size:var(--text-caption);font-weight:var(--weight-semibold);color:var(--ink);}
+.imgslot .frame .hint{font-size:var(--text-eyebrow);}
+
+/* ---- takeaway ---- */
+.takeaways{display:flex;flex-direction:column;gap:var(--space-takeaway);width:100%;}
+.take{display:flex;gap:16px;align-items:flex-start;}
+.take .star{color:var(--accent);font-size:var(--text-body);line-height:var(--leading-medium);flex-shrink:0;}
+.take h3{font-family:var(--font-display);font-weight:var(--weight-semibold);font-size:var(--text-h3);letter-spacing:var(--tracking-snug);margin-bottom:8px;color:var(--ink);}
+.take p{margin:0;color:var(--ink-soft);}
+
+/* ---- pull quote ---- */
+.pullquote{text-align:center;width:100%;}
+.pullquote blockquote{font-family:var(--font-display);font-style:italic;font-weight:var(--weight-regular);font-size:var(--text-quote);line-height:var(--leading-snug);letter-spacing:var(--tracking-snug);color:var(--ink);}
+.pullquote blockquote::before{content:"\201C";color:var(--accent);}
+.pullquote blockquote::after{content:"\201D";color:var(--accent);}
+
+/* ---- highlight ---- */
+mark{background:var(--highlight);color:var(--ink);padding:0 .15em;border-radius:var(--r-xs);}
