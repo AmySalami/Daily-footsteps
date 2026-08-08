@@ -108,6 +108,10 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
   `localStorage` layer with seeding + versioning/migration (`src/lib/storage.ts`); hash router + app
   shell; reusable UI primitives (`Button`, `Card`, `Badge`, `Tag`, `Paw`, `PawTrail`); env-driven
   proxy config (`VITE_API_BASE`). Prototype preserved under `/prototype`.
+- ✅ **E3 — Workspace CRUD** — add / edit (inline) / remove workspace items per language, persisted via
+  storage mutations (`addWorkspaceItem` / `updateWorkspaceItem` / `removeWorkspaceItem`); shared
+  `ItemForm` (add + edit) with emoji picker; reusable `toast` + `Toaster`. Verified: CRUD, persistence
+  across reload, per-language isolation.
 
 ---
 
@@ -121,6 +125,7 @@ A dedicated **UI polish pass** happens after E9 (not a new epic — a phase).
 
 ## Change Log
 
+- **2026-08-08** — **E3 (Workspace CRUD) built.** Add / edit / remove workspace items per language through typed storage mutations; shared add/edit form with emoji picker; reusable toast. Verified in-browser (CRUD, persistence, language isolation).
 - **2026-08-08** — **E1 (Foundation) built.** Production stack locked: **React + TypeScript + Vite**. Scaffold, design-system wiring, typed storage layer (seed + versioning), hash routing, app shell, and reusable UI primitives in place and building clean (`tsc` + `vite build`). Prototype moved to `/prototype`.
 - **2026-08-08** — Flow revision after prototype review: home is now the **writing page** (no upfront language choice); user **names the topic** in a Title (🎲 Shuffle pulls from workspace); language chosen via **tag or auto-detected** on submit; streak visual changed to **cat-paw footprints** with a compact horizontal per-language layout.
 - **2026-08-08** — Initial PRD. Epics E1–E9 defined. Decisions locked: thin AI proxy, DE+EN at launch, local storage, mocked AI for the prototype. Prototype phase started.

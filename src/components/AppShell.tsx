@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { Paw } from './ui';
+import { Paw, Toaster } from './ui';
 import { HAS_AI_PROXY } from '@/lib/config';
 
 const navClass = ({ isActive }: { isActive: boolean }) => `nav-btn${isActive ? ' nav-active' : ''}`;
@@ -33,6 +33,7 @@ export function AppShell() {
       <main className="app-main">
         <Outlet />
       </main>
+      <Toaster />
     </>
   );
 }

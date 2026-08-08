@@ -4,7 +4,7 @@
 // and a tiny pub/sub so React can subscribe via useSyncExternalStore.
 // This is the ONLY module that touches localStorage.
 // =========================================================
-import type { AppState, LangCode, StreakState } from './types';
+import type { AppState, LangCode, StreakState, WorkspaceItem } from './types';
 import { LANG_CODES, SEED_WORKSPACE } from './constants';
 import { STORAGE_KEY, STATE_VERSION } from './config';
 
@@ -115,5 +115,33 @@ export function completeToday(lang: LangCode): void {
     else L.streak = 1;
     L.lastDate = today;
     L.days.push(today);
+  });
+}
+
+// ---------- workspace mutations ----------
+export type WorkspaceDraft = Omit<WorkspaceItem, 'id'>;
+
+/** Add a new workspace item for a language. Returns the created id. */
+export function addWorkspaceItem(lang: LangCode, data: WorkspaceDraft): string {
+  const id = uid();
+  setState((draft) => {
+    draft.workspace[lang] = [...draft.workspace[lang], { id, ...data }];
+  });
+  return id;
+}
+
+/** Patch an existing workspace item in place. */
+export function updateWorkspaceItem(lang: LangCode, id: string, patch: Partial<WorkspaceDraft>): void {
+  setState((draft) => {
+    draft.workspace[lang] = draft.workspace[lang].map((it) =>
+      it.id === id ? { ...it, ...patch } : it,
+    );
+  });
+}
+
+/** Remove a workspace item. */
+export function removeWorkspaceItem(lang: LangCode, id: string): void {
+  setState((draft) => {
+    draft.workspace[lang] = draft.workspace[lang].filter((it) => it.id !== id);
   });
 }
