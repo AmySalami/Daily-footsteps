@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DailyFootsteps — daily language practice</title>
+
+  <!-- Design system fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Amie's Design System — tokens (single source of truth) -->
+  <link rel="stylesheet" href="vendor/amies-design-system.css" />
+  <!-- Prototype-specific styles (built on tokens only) -->
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="#/" data-link>
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 60" class="foot"><ellipse cx="20" cy="40" rx="12" ry="17"/><ellipse cx="20" cy="15" rx="9" ry="7"/></svg>
+      </span>
+      <span class="brand-name">Daily<span>Footsteps</span></span>
+    </a>
+    <nav class="nav-bar" id="topnav" aria-label="Primary">
+      <a class="nav-btn" href="#/" data-link>Hub</a>
+      <a class="nav-btn" href="#/workspace" data-link>Workspace</a>
+      <a class="nav-btn" href="#/vocab" data-link>Vocabulary</a>
+    </nav>
+    <span class="proto-badge badge">Prototype · mock AI</span>
+  </header>
+
+  <main id="app" class="app-main"><!-- views render here --></main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
