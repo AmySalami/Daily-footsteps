@@ -38,12 +38,13 @@ about, and by coming back every single day.
 
 ## 3. Core user flow
 
-1. Open the web → **Language Hub** shows a daily-exercise entry per language (DE, EN) with today's status and current streak.
-2. Choose a language → the **Exercise Engine** picks one item from the user's **workspace** and frames a task: *Describe it* **or** *Create a story involving it*.
-3. The user **writes or speaks** their response.
-4. On finish, the **AI coach reviews**: corrections + suggestions.
-5. AI gives a **score** and generates a **vocabulary table** (word · meaning · how to use · type · example sentence).
-6. Completing the day extends the **footsteps** streak visual.
+1. Open the web → land **directly on the writing page** (no language picking required first).
+2. The user **names their topic** in a Title field (their own "stuff"), or taps **🎲 Shuffle** to pull a random item from their **workspace** when they don't know what to write about.
+3. The user **writes or speaks** freely — describing the topic or telling a story about it.
+4. Language is set by tapping a **language tag**, or — if none is chosen — **auto-detected from the text** on submit.
+5. On finish, the **AI coach reviews**: corrections + suggestions.
+6. AI gives a **score** and generates a **vocabulary table** (word · meaning · how to use · type · example sentence).
+7. Completing the day extends the **cat-paw footsteps** streak for that language.
 
 All learner data lives in **local storage** (workspace, exercises, scores, vocab, streaks).
 The only server component is a thin AI proxy (production phase).
@@ -55,13 +56,13 @@ The only server component is a thin AI proxy (production phase).
 | # | Epic | Delivers |
 |---|------|----------|
 | **E1** | Foundation & Design System | Scaffold, amies design-system tokens wired in, layout shell, local-storage service |
-| **E2** | Home / Language Hub | Daily entry per language (DE + EN), today's status, streak preview |
-| **E3** | Workspace ("my stuff") | Add / edit / remove the items the exercise draws from |
-| **E4** | Exercise Engine | Pick a random item → *Describe it* or *Create a story*, one exercise per language per day |
+| **E2** | Home = Practice page | Writing-first landing; compact per-language streak chips that double as language tags; language auto-detected on submit if not chosen |
+| **E3** | Workspace ("my stuff") | Add / edit / remove the items **Shuffle** draws from |
+| **E4** | Exercise Engine | User names the topic (Title); optional **🎲 Shuffle** pulls a workspace item; write freely (describe or story) |
 | **E5** | Writing & Speaking Input | Text editor + Web Speech API voice input + submit |
 | **E6** | AI Review & Scoring | Corrections, suggestions, and a score; persisted locally |
 | **E7** | Vocabulary Builder | AI vocab table (word · meaning · usage · type · example), saved & reviewable per language |
-| **E8** | Streak & Progress (Footsteps) | Footsteps visual + streak logic per language |
+| **E8** | Streak & Progress (Footsteps) | **Cat-paw** footprints visual + streak logic per language |
 | **E9** | Backend AI Proxy | Thin server holding the API key, forwarding review/vocab requests (the only server piece) |
 
 **Engine is built once and parameterized by language** (E4–E7). Only prompts and labels differ
@@ -112,4 +113,5 @@ storage, and polish. Sequenced roughly: E1 → E9 (stub) → E3 → E4 → E5 �
 
 ## Change Log
 
+- **2026-08-08** — Flow revision after prototype review: home is now the **writing page** (no upfront language choice); user **names the topic** in a Title (🎲 Shuffle pulls from workspace); language chosen via **tag or auto-detected** on submit; streak visual changed to **cat-paw footprints** with a compact horizontal per-language layout.
 - **2026-08-08** — Initial PRD. Epics E1–E9 defined. Decisions locked: thin AI proxy, DE+EN at launch, local storage, mocked AI for the prototype. Prototype phase started.
